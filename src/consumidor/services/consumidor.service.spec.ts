@@ -20,8 +20,6 @@ describe('ConsumidorService', () => {
     content: Buffer.from(JSON.stringify(mockMensagem)),
   };
 
-  const mockRandomInt = 7;
-
   const ack = jest.fn();
   const sendToQueue = jest.fn();
 
@@ -45,6 +43,8 @@ describe('ConsumidorService', () => {
   });
 
   it('processar a mensagem e enviar status de sucesso', async () => {
+    const mockRandomInt = 7;
+
     (randomInt as jest.Mock).mockReturnValue(mockRandomInt);
 
     await service.onModuleInit();
@@ -70,6 +70,8 @@ describe('ConsumidorService', () => {
   });
 
   it('processar a mensagem e enviar status de falha', async () => {
+    const mockRandomInt = 1;
+
     (randomInt as jest.Mock).mockReturnValue(mockRandomInt);
 
     await service.onModuleInit();

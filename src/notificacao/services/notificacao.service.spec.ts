@@ -20,7 +20,7 @@ describe('NotificacaoService', () => {
       providers: [
         NotificacaoService,
         {
-          provide: ClientProxy,
+          provide: 'RABBITMQ_PRODUTOR',
           useValue: clientProxyMock,
         },
       ],

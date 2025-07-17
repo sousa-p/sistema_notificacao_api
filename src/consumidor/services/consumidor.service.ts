@@ -12,10 +12,10 @@ export class ConsumidorService implements OnModuleInit {
     await this.canal.assertQueue(process.env.QUEUE_ENTRADA, { durable: true });
     await this.canal.assertQueue(process.env.QUEUE_STATUS, { durable: true });
 
-    this.canal.consume(process.env.QUEUE_ENTRADA, async (msg: any) => {
-      if (!msg) return;
+    this.canal.consume(process.env.QUEUE_ENTRADA, async (message: any) => {
+      if (!message) return;
 
-      const conteudo = JSON.parse(msg.content.toString());
+      const conteudo = JSON.parse(message.content.toString());
 
       await new Promise((res) => setTimeout(res, 1000 + Math.random() * 1000));
 
@@ -30,7 +30,7 @@ export class ConsumidorService implements OnModuleInit {
         Buffer.from(JSON.stringify(resposta)),
       );
 
-      this.canal.ack(msg);
+      this.canal.ack(message);
     });
   }
 }
