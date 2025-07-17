@@ -4,19 +4,29 @@ import { AppService } from './app.service';
 
 describe('AppController', () => {
   let appController: AppController;
+  let appServiceMock: { getVersion: jest.Mock };
 
   beforeEach(async () => {
-    const app: TestingModule = await Test.createTestingModule({
+    appServiceMock = {
+      getVersion: jest.fn().mockReturnValue('v1.0.0'),
+    };
+
+    const module: TestingModule = await Test.createTestingModule({
       controllers: [AppController],
-      providers: [AppService],
+      providers: [
+        {
+          provide: AppService,
+          useValue: appServiceMock,
+        },
+      ],
     }).compile();
 
-    appController = app.get<AppController>(AppController);
+    appController = module.get<AppController>(AppController);
   });
 
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
-    });
+  it('retornar a versão da aplicação', () => {
+    const result = appController.getVersion();
+    expect(result).toBe('v1.0.0');
+    expect(appServiceMock.getVersion).toHaveBeenCalled();
   });
 });
