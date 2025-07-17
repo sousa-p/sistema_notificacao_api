@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+
+  notificacao-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: notificacao-api
+    restart: always
+    env_file:
+      - .env
+    environment:
+      RABBITMQ_URL: ${RABBITMQ_URL}
+      QUEUE_ENTRADA: ${QUEUE_ENTRADA}
+      QUEUE_STATUS: ${QUEUE_STATUS}
+    depends_on:
+      - rabbitmq
+    ports:
+      - "3000:3000"
