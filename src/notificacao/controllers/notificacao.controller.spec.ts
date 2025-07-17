@@ -27,8 +27,8 @@ describe('NotificacaoController', () => {
 
   it('chamar o service com o DTO e retornar a resposta esperada', async () => {
     const dto: CreateNotificacaoDto = {
-      mensagemId: '123',
-      conteudoMensagem: 'Teste de mensagem',
+      mensagemId: '1',
+      conteudoMensagem: 'conteudoMensagem',
     };
 
     const resultado = await controller.notificar(dto);
